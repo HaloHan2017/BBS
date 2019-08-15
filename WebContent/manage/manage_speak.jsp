@@ -16,7 +16,7 @@
 	    	style="padding:5px;background:#eee;height:100%;" >
 	    	<%-- <a href="${pageContext.request.contextPath }/sensitive.s?op=">添加敏感词</a> | 
 	    	<a href="${pageContext.request.contextPath }/sensitive.s?op=">删除敏感词</a>	<br/> --%>
-			<table id="dg" class="easyui-datagrid" style="width:100%;height:100%" toolbar="#toolbar" pagination="true"
+			<table id="dgSW" class="easyui-datagrid" style="width:100%;height:100%" toolbar="#toolbarSW" pagination="true"
 			    data-options="url:'${pageContext.request.contextPath }/sensitive.s?op=queryAllSensitiveWord',fitColumns:true,singleSelect:true">
 			    <thead>
 					<tr>
@@ -28,7 +28,7 @@
 			</table>
 			
 			<!-- 工具条 -->
-			<div id="toolbar">
+			<div id="toolbarSW">
 				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addSW()">添加敏感词</a>
 				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="delSW()">删除敏感词</a>
 				<!-- 查询工具 -->
@@ -59,7 +59,7 @@
 			function doSearch(){
 				if(!"".equals($('#sname').val().trim())){
 					//输入不为空
-					$('#dg').datagrid('reload');
+					$('#dgSW').datagrid('reload');
 				}
 			} 
 			var url;
@@ -78,32 +78,39 @@
 						return $(this).form('validate');
 					},
 					success: function(result){
-						var result = eval('('+result+')');
-						if (result.code==0){
-							$.messager.show({
+						console.info(result);
+						result = eval('('+result+')');
+						console.info(result);
+						if (result.code=='0'){
+							$.messager.alert('错误提示',result.msg,'error');
+							/* $.messager.show({
 								title: '错误提示',
 								msg: result.msg
-							});
-						} else if(result.code==1) {
+							}); */
+						} else if(result.code=='1') {
+							$.messager.alert('提示',result.msg,'info');
 							$('#dlg').dialog('close');		// close the dialog
-							$('#dg').datagrid('reload');	// reload the user data
+							$('#dgSW').datagrid('reload');	// reload the user data
 						}
 					}
 				});
 			}
 			function delSW(){
-				var row = $('#dg').datagrid('getSelected');
+				var row = $('#dgSW').datagrid('getSelected');
 				if (row){
 					$.messager.confirm('删除敏感词','确认删除该敏感词?',function(r){
 						if (r){
 							$.post('${pageContext.request.contextPath }/sensitive.s?op=delSW',{sid:row.sid,sname:row.sname},function(result){
-								if (result.code==1){
-									$('#dg').datagrid('reload');	// reload the user data
+								result = eval('('+result+')');
+								if (result.code=='1'){
+									$.messager.alert('提示',result.msg,'info');
+									$('#dgSW').datagrid('reload');	// reload the user data
 								} else {
-									$.messager.show({	// show error message
+									$.messager.alert('错误提示',result.msg,'error');
+									/* $.messager.show({	// show error message
 										title: '错误提示',
 										msg: result.msg
-									});
+									}); */
 								}
 							},'json');
 						}

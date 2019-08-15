@@ -74,7 +74,7 @@ public class TopicService {
 		tdao.createNewTopic(topic);
 		
 		//发完帖子之后，判断用户的的 等级数是否可以提升
-		//increLevel(topic.getUid());
+		increLevel(topic.getUid());
 		
 		return flag;
 	}
@@ -82,8 +82,28 @@ public class TopicService {
 	private void increLevel(Integer uid) {
 		//获取用户的 等级数  注册时长  帖子数 回复数  和下一等级的信息   进行比对
 		TblLevel userlevel=tdao.getLevelInfoByUid(uid);
-		//若满足条件，则进行等级提升
-		
+		//找到uid对应用户
+		List<TblUser> users = udao.findUserById(uid);
+		TblUser userByID=null;
+		if(users!=null && users.size()>0){
+			userByID=users.get(0);
+			if(userByID.getRegtime().getTime() < userlevel.getLtime()){
+				//注册时间不满足
+				return;
+			}
+			//发帖数不满足
+			Integer topicNum=tdao.getUserTopicNumByID(uid);
+			if(topicNum< userlevel.getLtopicnum()){
+				return;
+			}
+			//回帖数不满足
+			Integer replyNum=tdao.getUserReplyNumByID(uid);
+			if(replyNum< userlevel.getLreplynum()){
+				return;
+			}
+			//若满足条件，则进行等级提升（要升级的lid，和 用户uid）
+			udao.updateUserLevel(userlevel.getLid(),uid);
+		}
 	}
 
 	//根据id查到topic
@@ -135,6 +155,8 @@ public class TopicService {
 		//调用dao层的添加回复犯法
 		tdao.createNewReply(reply);
 		
+		//回复完帖子之后，判断用户的的 等级数是否可以提升
+		increLevel(reply.getUid());
 		return flag;
 	}
 	

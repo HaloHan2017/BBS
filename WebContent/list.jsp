@@ -33,10 +33,10 @@
 				<A id="post" onclick="canPost('post')" href="javascript:void(0);"><IMG src="image/post.gif" name="td_post" border="0" ></A>
 			</DIV>
 			<!--  翻 页         -->
-			<DIV>
+			<!-- <DIV>
 				<a href="list.html">上一页</a>|
 				<a href="list.html">下一页</a>
-			</DIV>
+			</DIV> -->
 		
 			<DIV class="t">
 				<TABLE cellSpacing="0" cellPadding="0" width="100%">		
@@ -72,14 +72,14 @@
 				</TABLE>
 			</DIV>
 			<!--  翻 页          -->
-			<DIV>
+			<!-- <DIV>
 				<a href="list.html">上一页</a>|
 				<a href="list.html">下一页</a>
-			</DIV>
+			</DIV> -->
 		</DIV>
 		<!--  声 明          -->
 		<BR/>
-		<CENTER class="gray">源辰信息</CENTER>
+		<CENTER class="gray">版权所有 TYS</CENTER>
 	</BODY>
 </HTML>
     

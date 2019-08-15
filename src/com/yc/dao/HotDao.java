@@ -15,14 +15,14 @@ public class HotDao {
 						" ON b.boardid = c.boardid LEFT JOIN(SELECT * FROM tbl_topic a LEFT JOIN (SELECT MAX(topicid) maxid FROM tbl_topic GROUP BY boardid) f"+
 						" ON a.topicid = f.maxid ) d ON b.boardid = d.boardid "+
 						" LEFT JOIN (SELECT topicid,COUNT(*) coun FROM tbl_reply GROUP BY topicid) g ON g.topicid = d.topicid "+
-						" LEFT JOIN tbl_user e ON d.uid = e.uid WHERE a.parentid=0 AND g.coun IS NOT NULL) a ORDER BY coun DESC";
+						" LEFT JOIN tbl_user e ON d.uid = e.uid WHERE a.parentid=0 AND g.coun IS NOT NULL) a ORDER BY coun DESC limit 6";
 		return DBUtil.list(sql);
 	}
 	
 	public List<Map<String,Object>> findUser(){
 		String sql = "SELECT * FROM tbl_user a RIGHT JOIN"+
 				" (SELECT uid,COUNT(*) coun FROM tbl_topic GROUP BY uid) b"+ 
-				" ON a.uid=b.uid ORDER BY coun desc LIMIT 0,3";
+				" ON a.uid=b.uid ORDER BY coun desc LIMIT 0,4";
 		return DBUtil.list(sql);
 	}
 }

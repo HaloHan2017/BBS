@@ -236,7 +236,7 @@
 	</c:if>
 		<!-- 声明        -->
 		<BR>
-		<CENTER class="gray">源辰信息</CENTER>
+		<CENTER class="gray">版权所有 TYS</CENTER>
 	</BODY>
 </HTML>
 

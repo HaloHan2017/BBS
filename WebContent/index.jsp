@@ -135,7 +135,7 @@
 		<DIV id="demo" style="position:absolute" onload="move()">
 		<p style="CURSOR:hand;color:red;font-weight:bold;position: relative;top:20px" onclick="clearInterval();demo.style.visibility = 'hidden'" >X</p>
 			<a href="http://www.baidu.com" target="_blank">
-			<img src="image/logo.gif" border="0">
+			<img src="image/logo3.png" border="0">
 			</a>
 			
 		</DIV>
@@ -265,7 +265,7 @@
 			</c:forEach>
 			</TABLE>
 		</DIV>
-		<div >
+		<div style="display:none;">
 				<input type="text" value="" id="num1">
 				<input type="text" value="" id="num2">
 				<input type="text" value="" id="num3">

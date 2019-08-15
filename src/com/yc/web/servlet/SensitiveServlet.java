@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import com.yc.utils.MyUtils;
 
 @WebServlet("/sensitive.s")
 public class SensitiveServlet extends BaseServlet {
+	
 	private static final long serialVersionUID = 1L;
     private SensitiveService ss=new SensitiveService();
     
@@ -48,34 +50,40 @@ public class SensitiveServlet extends BaseServlet {
 	//添加敏感词
 	public void addSW(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		String word = request.getParameter("sname");
-		PrintWriter out = MyUtils.getPrintWriter(response);
+//		PrintWriter out = MyUtils.getPrintWriter(response);
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
 		String res="";
 		try {
 			ss.addWord(word);
-			res="{'code':1,msg:'添加成功！'}";
-			out.append(res);
+			res="{'code':'1','msg':'添加成功！'}";
+//			out.append(res);
+//			MyUtils.outJsonString(response, res);
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			res="{'code':0,msg:'"+e.getMessage()+"'}";
-			out.append(res);
+			res="{'code':'0','msg':'"+e.getMessage()+"'}";
+//			MyUtils.outJsonString(response, res);
+//			out.append(res);
 		}
+		out.println(res);
 	}
 	
 	//删除敏感词
 	public void delSW(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		int sid = Integer.parseInt(request.getParameter("sid"));
 		String sname = request.getParameter("sname");
-		System.out.println(sname);
-		PrintWriter out = MyUtils.getPrintWriter(response);
+//		PrintWriter out = MyUtils.getPrintWriter(response);
 		String res="";
 		try {
 			ss.delWord(sid,sname);
-			res="{'code':1,msg:'删除成功！'}";
-			out.append(res);
+			res="{'code':'1','msg':'删除成功！'}";
+			MyUtils.outJsonString(response, res);
+//			out.append(res);
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			res="{'code':0,msg:'"+e.getMessage()+"'}";
-			out.append(res);
+			res="{'code':'0','msg':'"+e.getMessage()+"'}";
+			MyUtils.outJsonString(response, res);
+//			out.append(res);
 		}
 	}
 }

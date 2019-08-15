@@ -2,6 +2,7 @@ package com.yc.dao;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.yc.bean.TblLevel;
 import com.yc.bean.TblReply;
@@ -104,8 +105,40 @@ public class TopicDao {
 
 	//查询用户对应的等级信息
 	public TblLevel getLevelInfoByUid(Integer uid) {
-		String sql="";
-		return null;
+		StringBuffer sql=new StringBuffer();
+		
+		sql.append("SELECT\n");
+		sql.append("	ltime,\n");
+		sql.append("	ltopicnum,\n");
+		sql.append("	lreplynum\n");
+		sql.append("FROM\n");
+		sql.append("	tbl_level\n");
+		sql.append("WHERE\n");
+		sql.append("	tbl_level.lid-1 = (select lid from tbl_user where uid=?)");
+		return DBUtil.get(TblLevel.class,sql.toString(), uid);
+	}
+	
+	//根据用户id查询 发帖数
+	public Integer getUserTopicNumByID(int uid) {
+		StringBuffer sql=new StringBuffer("SELECT count(tbl_topic.topicid)as topicNum\n");
+		sql.append("from tbl_user\n");
+		sql.append("left join tbl_topic \n");
+		sql.append("on tbl_user.uid=tbl_topic.uid \n");
+		sql.append("where tbl_user.uid=? \n");
+		Map<String, Object> map = DBUtil.get(sql.toString(), uid);
+		Long topicNum = (Long) map.get("topicnum");
+		return topicNum.intValue();
+	}
+	//根据用户id查询 回帖数
+	public Integer getUserReplyNumByID(int uid) {
+		StringBuffer sql=new StringBuffer("SELECT count(tbl_reply.topicid)as replyNum\n");
+		sql.append("from tbl_user\n");
+		sql.append("left join tbl_reply \n");
+		sql.append("on tbl_user.uid=tbl_reply.uid \n");
+		sql.append("where tbl_user.uid=? \n");
+		Map<String, Object> map = DBUtil.get(sql.toString(), uid);
+		Long topicNum = (Long) map.get("replynum");
+		return topicNum.intValue();
 	}
 
 }

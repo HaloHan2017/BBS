@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	<DIV>
-		<IMG src="image/logo.gif">
+		<IMG src="image/logo1.png">
 	</DIV>
 	<!-- 用户信息、登录、注册  -->
 	

@@ -38,15 +38,18 @@ public class LevelServlet extends BaseServlet {
 		Map<String, String[]> map = request.getParameterMap();
 		TblLevel level = MyUtils.mapToJavaBean(map, TblLevel.class);
 		//调用serivce层的添加等级方法
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
 		String result = null;
 		try {
 			ls.addLevel(level);
-			result="{'result':1,'msg':'添加成功'}";
-			MyUtils.outJsonString(response, result);
+			result="{'code':1,'msg':'添加成功'}";
+			out.println(result);
+//			MyUtils.outJsonString(response, result);
 		} catch (ServiceException e) {
 			e.printStackTrace();
-			result="{'result':0,'msg':'"+e.getMessage()+"'}";
-			MyUtils.outJsonString(response, result);
+			result="{'code':0,'msg':'"+e.getMessage()+"'}";
+//			MyUtils.outJsonString(response, result);
 		}
 	}
 	
@@ -72,17 +75,20 @@ public class LevelServlet extends BaseServlet {
 		//获取level等级的所有字段(时间需要转换成long)
 		Map<String, String[]> map = request.getParameterMap();
 		TblLevel level = MyUtils.mapToJavaBean(map, TblLevel.class);
-		System.out.println(level);
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
 		//调用serivce层的修改等级方法
 		String result = null;
 		try {
 			ls.mofifyLevel(level);
-			result="{'result':1,'msg':'修改成功'}";
-			MyUtils.outJsonString(response, result);
+			result="{'code':1,'msg':'修改成功'}";
+			out.println(result);
+//			MyUtils.outJsonString(response, result);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			result="{'result':0,'msg':'"+e.getMessage()+"'}";
-			MyUtils.outJsonString(response, result);
+			out.println(result);
+//			MyUtils.outJsonString(response, result);
 		}
 	}
 }

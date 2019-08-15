@@ -113,8 +113,8 @@
 	</head>
 	<body id="cc" class="easyui-layout" style="width:100%;height:100%;">
 	    <!-- 顶部 -->
-	    <div data-options="region:'north'" style="height:100px;">
-	    	<img src="../image/yclogo.png">
+	    <div data-options="region:'north'" style="height:80px;width:150px">
+	    	<img src="../image/logo2.png" style="height:80px;width:150px">
 	    </div>
     	
     	<!-- 左侧导航栏  手风琴  -->

@@ -19,8 +19,8 @@ public class FileUploadServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String path = request.getServletContext().getInitParameter("path");
-		String virtualPath = request.getServletContext().getInitParameter("virtualPath");
-		Map<String, Object> map = MyUtils.upload(request, "myhead", path,virtualPath);
+//		String virtualPath = request.getServletContext().getInitParameter("virtualPath");
+		Map<String, Object> map = MyUtils.upload(request, "myhead", path);
 		
 		String name = (String) map.get("name");
 		String newFileName = (String) map.get("mayhead");

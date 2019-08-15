@@ -34,7 +34,7 @@
 		<!-- 主面板  -->
 	    <div id="mainPanel" data-options="region:'center',title:'主操作区'" 
 	    	style="padding:5px;background:#eee;height:100%;" >
-			<table id="dg" class="easyui-datagrid" style="width:100%;height:100%" toolbar="#toolbar" rownumbers="true" 
+			<table id="dgLevels" class="easyui-datagrid" style="width:100%;height:100%" toolbar="#toolbarLevels" rownumbers="true" 
 				data-options="url:'${pageContext.request.contextPath }/level.s?op=queryAllLevel',fitColumns:true,singleSelect:true">
 			    <thead>
 					<tr>
@@ -47,7 +47,7 @@
 			    </thead>
 			</table>
 		</div>
-		<div id="toolbar">
+		<div id="toolbarLevels">
 			<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addLevel()">添加等级</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editLevel()">修改等级</a>
 			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyLevel()">删除等级</a>
@@ -103,7 +103,7 @@
 			function addLevel(){
 				$('#dlg').dialog('open').dialog('setTitle','添加等级');
 				//$('#fm').form('clear');
-				$("input[name='lid']").remove();
+				//$("input[name='lid']").remove();
 				$("input[name='lname']").val('');
 				$("input[name='ltime']").val('');
 				$("input[name='ltopicnum']").val('');
@@ -112,9 +112,10 @@
 			}
 			//修改等级（弹出对话框）
 			function editLevel(){
-				var row = $('#dg').datagrid('getSelected');
+				var row = $('#dgLevels').datagrid('getSelected');
 				if (row){
 					$('#dlg').dialog('open').dialog('setTitle','修改等级');
+					$("input[name='lid']").val(row.lid);
 					$('#fm').form('load',row);
 					url = '${pageContext.request.contextPath }/level.s?op=mofifyLevel';
 				}
@@ -127,29 +128,34 @@
 						return $(this).form('validate');
 					},
 					success: function(data){
-						var dataObj = eval('('+data+')');
-						/* alert(dataObj);
-						if (dataObj.result!=1){
-							$.messager.alert('错误提示',dataObj.msg);
+						data = eval('('+data+')');
+						if (data.code!=1){
+							$.messager.alert('错误提示',data.msg,'error');
 						} else {
+							$.messager.alert('提示',data.msg,'info');
 							$('#dlg').dialog('close');		// close the dialog
-							$('#dg').datagrid('reload');	// reload the user data
-						} */
-						$('#dlg').dialog('close');		// close the dialog
-						$('#dg').datagrid('reload');	// reload the user data
+							$('#dgLevels').datagrid('reload');	// reload the user data
+						}
 					}
 				});
 			}
 			//删除等级
 			function destroyLevel(){
-				var row = $('#dg').datagrid('getSelected');
+				var row = $('#dgLevels').datagrid('getSelected');
 				if (row){
 					$.messager.confirm('删除等级','确定删除该等级信息？',function(r){
 						if (r){
 							$.post('${pageContext.request.contextPath }/level.s?op=deleteLevel',{lid:row.lid},function(result){
 								//重新加载
-								$('#dlg').dialog('close');	
-								$('#dg').datagrid('reload');	// reload the user data
+								result=eval("("+result+")");
+								if(result.code==0){
+									$.messager.alert('错误提示',result.msg,'error');
+									$('#dlg').dialog('close');	
+								}else{
+									$.messager.alert('提示',result.msg,'info');
+									$('#dlg').dialog('close');	
+									$('#dgLevels').datagrid('reload');	// reload the user data
+								}
 							},'json');
 						}
 					});

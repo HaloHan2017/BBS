@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 
@@ -13,7 +14,9 @@ import com.yc.bean.TblSWord;
 import com.yc.utils.DBUtil;
 
 public class SensitiveDao {
-	private File file = new File("E:/eclipse/works_j2ee/bbs_class/src/SensitiveWords.txt");
+	private File file = new File("/usr/myStudy/tomcat/apache-tomcat-8.5.42/webapps/BBS/WEB-INF/classes/SensitiveWords.txt");
+	
+	
 	public List<TblSWord> query(PageBean pageBean, String sname){
 		String sql="SELECT\n" +
 				"	*\n" +
@@ -40,6 +43,7 @@ public class SensitiveDao {
 			FileUtils.writeLines(file, lines);
 		} catch (IOException e) {
 			e.printStackTrace();
+			return -1;
 		}
 		String sql="insert into tbl_sword values(null,?,now(),1)";
 		return DBUtil.doUpdate(sql, word);
@@ -59,9 +63,10 @@ public class SensitiveDao {
 			FileUtils.writeLines(file, lines);
 		} catch (IOException e) {
 			e.printStackTrace();
+			return -1;
 		}
 		
-		String sql="update tbl_sword set sstate=0 where sid=?";//将状态设置=0，表示已删除
+		String sql="delete from tbl_sword where sid=?";//将状态设置=0，表示已删除
 		return DBUtil.doUpdate(sql, sid);
 	}
 

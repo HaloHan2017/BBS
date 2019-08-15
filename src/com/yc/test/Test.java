@@ -1,14 +1,18 @@
 package com.yc.test;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 
 import com.yc.bean.TblUser;
 import com.yc.utils.DBUtil;
+import com.yc.utils.MailUtils;
 
 public class Test {
 	public static void main(String[] args) {
@@ -32,5 +36,15 @@ public class Test {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	@org.junit.Test
+	public void testName() throws Exception {
+		try {
+			MailUtils.sendMail("找回密码","2332722903@qq.com", "测试邮件");
+			System.out.println("success");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

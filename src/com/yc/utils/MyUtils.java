@@ -182,7 +182,7 @@ public class MyUtils {
 	
 	//上传头像
 	//property 要上传的属性名   uploadPath存放在服务器的地址
-	public static Map<String,Object> upload(HttpServletRequest request,String property,String uploadPath,String virtualPath){
+	public static Map<String,Object> upload(HttpServletRequest request,String property,String uploadPath){
 		//收集数据的容器
 		Map<String,Object> map = new HashMap<String,Object>();
 				
@@ -275,7 +275,7 @@ public class MyUtils {
 		out.flush();//表示强制将缓冲区中的数据发送出去，不必等到缓冲区满
 	}
 	public static PrintWriter getPrintWriter(HttpServletResponse response) throws IOException{
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("text/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		return out;
 		

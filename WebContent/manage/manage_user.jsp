@@ -11,7 +11,7 @@
 	<body id="cc" class="easyui-layout" style="width:100%;height:100%;">
 		<div id="mainPanel" data-options="region:'center',title:'主操作区'" 
 	    	style="padding:5px;background:#eee;height:100%;" >
-			<table id="dg" class="easyui-datagrid" style="width:100%;height:100%" toolbar="#toolbar" pagination="false"
+			<table id="dgUsers" class="easyui-datagrid" style="width:100%;height:100%" toolbar="#toolbarUsers" pagination="false"
 			    data-options="url:'${pageContext.request.contextPath }/user.s?op=queryAllUser',fitColumns:true,singleSelect:true">
 			    <thead>
 			    	<tr>
@@ -28,7 +28,7 @@
 			</table>
 			
 			<!-- 工具条 -->
-			<div id="toolbar">
+			<div id="toolbarUsers">
 				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-no" plain="true" onclick="BanUser()">禁言</a>
 				<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="UnbanUser()">解除禁言</a>
 			</div>
@@ -39,22 +39,23 @@
 		<script type="text/javascript">
 			//禁言用户
 			function BanUser(){
-				var row = $('#dg').datagrid('getSelected');
+				var row = $('#dgUsers').datagrid('getSelected');
 				if (row){
 					$.messager.confirm('禁言','确定禁言该用户?',function(r){
 						if (r){
 							$.post('${pageContext.request.contextPath }/user.s?op=banUser',
 									{uid:row.uid}, function(data){
+										console.info(data);
 										var dataObj=eval("("+data+")");
-										/* if(dataObj.code!=1){
+										console.info(dataObj);
+										if(dataObj.code!=1){
 											//禁言失败
-											$.messager.alert('错误提示',dataObj.msg);
+											$.messager.alert('错误提示',dataObj.msg,'error');
 										}else{
 											//禁言成功
-											$.messager.alert('提示',dataObj.msg);
-											$('#dg').datagrid('reload');	// reload the user data
-										} */
-										$('#dg').datagrid('reload');
+											$.messager.alert('提示',dataObj.msg,'info');
+											$('#dgUsers').datagrid('reload');	// reload the user data
+										}
 							},'json');
 						}
 					});
@@ -62,22 +63,22 @@
 			}
 			//解除禁言
 			function UnbanUser(){
-				var row = $('#dg').datagrid('getSelected');
+				var row = $('#dgUsers').datagrid('getSelected');
 				if (row){
 					$.messager.confirm('解除禁言','确定解除该用户的禁言?',function(r){
 						if (r){
 							$.post('${pageContext.request.contextPath }/user.s?op=UnbanUser',
 									{uid:row.uid},function(data){
 										var dataObj=eval("("+data+")");
-										/* if(dataObj.code!=1){
+										if(dataObj.code!=1){
 											//禁言失败
-											$.messager.alert('错误提示',dataObj.msg);
+											$.messager.alert('错误提示',dataObj.msg,'error');
 										}else{
 											//禁言成功
-											$.messager.alert('提示',dataObj.msg);
-											$('#dg').datagrid('reload');	// reload the user data
-										} */
-										$('#dg').datagrid('reload');
+											$.messager.alert('提示',dataObj.msg,'info');
+											$('#dgUsers').datagrid('reload');	// reload the user data
+										}
+										$('#dgUsers').datagrid('reload');
 							},'json');
 						}
 					});

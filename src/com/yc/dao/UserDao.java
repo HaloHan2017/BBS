@@ -133,5 +133,11 @@ public class UserDao {
 		int ctn = (int) DBUtil.get(sql, uid).get("swcount");
 		return ctn;
 	}
+	
+	//用户等级更新
+	public void updateUserLevel(Integer lid, Integer uid) {
+		String sql="update tbl_user set lid=? where uid=?";
+		DBUtil.doUpdate(sql, lid,uid);
+	}
 
 }

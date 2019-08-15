@@ -6,8 +6,8 @@
 		<title>BBS后台管理</title>
 		<!-- links.jsp -->
 		<%@ include file="../links.jsp" %>
-		
 	</head>
+	
 	<body id="cc" class="easyui-layout" style="width:100%;height:100%;">
 	    <!-- <div data-options="region:'north'" style="height:100px;"> </div>  -->
 			
@@ -19,7 +19,7 @@
 					<tr>
 						<th data-options="field:'topicid',width:50">编号</th>
 						<th data-options="field:'title',width:100">标题</th>
-						<th data-options="field:'content',width:100">内容</th>
+						<th data-options="field:'content',width:100,height:100">内容</th>
 						<th data-options="field:'publishtime',width:100,formatter:TimeDisplay">发布时间</th>
 						<th data-options="field:'modifytime',width:100,formatter:TimeDisplay" >修改时间</th>
 						<th data-options="field:'uid',width:30" >用户编号</th>

@@ -84,8 +84,8 @@ public class UserServlet extends BaseServlet {
 	public void reg(HttpServletRequest request,HttpServletResponse response) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException, ServletException, IOException{
 		//调用MyUtil，过滤掉上传文件，将其复制到服务器指令目录
 		String path = request.getServletContext().getInitParameter("path");
-		String virtualPath = request.getServletContext().getInitParameter("virtualPath");
-		Map<String, Object> map = MyUtils.upload(request, "myhead", path,virtualPath);
+//		String virtualPath = request.getServletContext().getInitParameter("virtualPath");
+		Map<String, Object> map = MyUtils.upload(request, "myhead", path);
 		//将map里的参数封装成TblUser
 		TblUser u =new TblUser();
 		u.setEmail((String) map.get("email"));
@@ -105,7 +105,6 @@ public class UserServlet extends BaseServlet {
 			//使用系统默认自带头像
 			u.setHead((String) map.get("head"));
 		}
-		System.out.println(u.toString());
 		//获取输入的验证码
 		String input_vfcode = (String) map.get("vfcode");
 		//获取产生的正确验证码
@@ -254,13 +253,14 @@ public class UserServlet extends BaseServlet {
 	 * */ 
 	public void banUser(HttpServletRequest request,HttpServletResponse response) throws ServiceException, IOException{
 		int uid = Integer.parseInt(request.getParameter("uid"));
-		PrintWriter out = MyUtils.getPrintWriter(response);
+//		PrintWriter out = MyUtils.getPrintWriter(response);
 		//判断该用户是否 已被禁言
 		boolean flag=us.getUserBanState(uid);
 		if(flag){
 			//被禁言了，不能再禁言
-			out.write("{'code':-1,'msg':'操作有误!该用户已被禁言！'}");
-			out.flush();
+			MyUtils.outJsonString(response,"{'code':-1,'msg':'操作有误!该用户已被禁言！'}");
+//			out.write("{'code':-1,'msg':'操作有误!该用户已被禁言！'}");
+//			out.flush();
 			return;
 		}
 		//调用service的禁言方法
@@ -268,11 +268,13 @@ public class UserServlet extends BaseServlet {
 		try {
 			us.banUser(uid);
 			//禁言成功
-			out.print("{'code':1,'msg':'禁言成功！'}");
+			MyUtils.outJsonString(response,"{'code':1,'msg':'禁言成功！'}");
+//			out.print("{'code':1,'msg':'禁言成功！'}");
 		} catch (Exception e) {
 			//禁言失败
 			e.printStackTrace();
-			out.print("{'code':0,'msg':'"+e.getMessage()+"'}");
+			MyUtils.outJsonString(response,"{'code':0,'msg':'"+e.getMessage()+"'}");
+//			out.print("{'code':0,'msg':'"+e.getMessage()+"'}");
 			
 		} 
 	}
@@ -288,7 +290,8 @@ public class UserServlet extends BaseServlet {
 		boolean flag=us.getUserBanState(uid);
 		if(!flag){
 			//已经解除禁言了，不能再操作
-			out.print("{'code':-1,'msg':'操作有误!该用户已被解除禁言！'}");
+			MyUtils.outJsonString(response,"{'code':-1,'msg':'操作有误!该用户已被解除禁言！'}");
+//			out.print("{'code':-1,'msg':'操作有误!该用户已被解除禁言！'}");
 			return;
 		}
 		//调用service的解除禁言方法
@@ -297,11 +300,13 @@ public class UserServlet extends BaseServlet {
 			us.UnBanUser(uid);
 			//解除禁言成功
 			res="success";
-			out.print("{'code':1,'msg':'解除禁言成功！'}");
+			MyUtils.outJsonString(response,"{'code':1,'msg':'解除禁言成功！'}");
+//			out.print("{'code':1,'msg':'解除禁言成功！'}");
 		} catch (Exception e) {
 			//解除禁言失败
 			e.printStackTrace();
-			out.print("{'code':0,'msg':'"+e.getMessage()+"'}");
+			MyUtils.outJsonString(response,"{'code':0,'msg':'"+e.getMessage()+"'}");
+//			out.print("{'code':0,'msg':'"+e.getMessage()+"'}");
 			
 		}
 	}

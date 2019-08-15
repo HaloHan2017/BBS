@@ -65,7 +65,9 @@
 		<DIV class="t" style="MARGIN-TOP: 15px" align="center">
 			<h2>找回密码</h2>
 			<FORM name="loginForm" action="" method="post" id="form">
-				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱 &nbsp;<INPUT class="easyui-textbox" tabIndex="2"  type="email"  maxLength="20" size="20" id="email" name="email" required="required">
+				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				邮&nbsp;&nbsp;箱 &nbsp;<INPUT class="easyui-textbox" tabIndex="2"  type="email"  maxLength="20" size="20" id="email" name="email" required="required">
 					<a id="send" href="#" onClick="goSendVCode()">发送验证码</a>
 				<br/>验证码 &nbsp;<INPUT id="ecode" class="easyui-textbox" tabIndex="2"  type="text"  maxLength="20" size="20"  name="ecode"  required="required" >
 				<br/>新密码 &nbsp;<INPUT id="newpass" class="easyui-textbox" tabIndex="2"  type="password"  maxLength="20" size="20"  name="newpass"  required="required">
@@ -74,7 +76,7 @@
 		</DIV>
 		<!-- 声明      -->
 		<BR/>
-		<CENTER class="gray">源辰信息</CENTER>
+		<CENTER class="gray">版权所有 TYS</CENTER>
 	
 	</body>
 </html>

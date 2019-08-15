@@ -14,20 +14,30 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
 public class MailUtils {
-
+	
+	private static final String QQ_EMAIL="1006653740@qq.com";
+	private static final String AUTH_CODE="vbbxalfwfvwfbedd";
+	private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 	public static void sendMail(String subject,String email, String emailMsg)
 			throws AddressException, MessagingException {
 		// 1.创建一个程序与邮件服务器会话对象 Session
 
 		Properties props = new Properties();
-		props.setProperty("mail.transport.protocol", "SMTP");
-		props.setProperty("mail.host", "smtp.qq.com");//根据要发送的邮箱，修改
-		props.setProperty("mail.smtp.auth", "true");// 指定验证为true
+		props.setProperty("mail.host", "smtp.qq.com");
+        props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
+        props.setProperty("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.smtp.port", "465");
+        props.setProperty("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.auth", "true");
+        
+//		props.setProperty("mail.transport.protocol", "SMTP");
+//		props.setProperty("mail.host", "smtp.qq.com");//根据要发送的邮箱，修改
+//		props.setProperty("mail.smtp.auth", "true");// 指定验证为true
 
 		// 创建验证器
 		Authenticator auth = new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("1006653740", "dlfowqjarpzwbbgf");//发送者，和授权码
+				return new PasswordAuthentication("1006653740",AUTH_CODE);//发送者，和授权码
 			}
 		};
 
@@ -36,7 +46,7 @@ public class MailUtils {
 		// 2.创建一个Message，它相当于是邮件内容
 		Message message = new MimeMessage(session);
 
-		message.setFrom(new InternetAddress("1006653740@qq.com")); // 设置发送者
+		message.setFrom(new InternetAddress(QQ_EMAIL)); // 设置发送者
 
 		message.setRecipient(RecipientType.TO, new InternetAddress(email)); // 设置发送方式与接收者
 
